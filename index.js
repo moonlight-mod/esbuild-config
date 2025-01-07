@@ -18,7 +18,7 @@ const external = [
   "original-fs",
   "discord" // mappings
 ];
-const sides = ["index", "webpackModule", "node", "host"];
+const sides = ["index", "webpackModules", "node", "host"];
 const fileExts = ["js", "jsx", "ts", "tsx"];
 
 export function makeExtConfig({
@@ -31,7 +31,7 @@ export function makeExtConfig({
   esm = false
 }) {
   const entryPoints = [];
-  if (side !== "webpackModule") {
+  if (side !== "webpackModules") {
     for (const fileExt of fileExts) {
       const filePath = path.join(src, `${side}.${fileExt}`);
       if (fs.existsSync(filePath)) entryPoints.push(filePath);
@@ -39,7 +39,7 @@ export function makeExtConfig({
   }
 
   const wpModulesDir = path.join(src, "webpackModules");
-  if (side === "webpackModule" && fs.existsSync(wpModulesDir)) {
+  if (side === "webpackModules" && fs.existsSync(wpModulesDir)) {
     const wpModules = fs.readdirSync(wpModulesDir);
     for (const wpModule of wpModules) {
       if (fs.statSync(path.join(wpModulesDir, wpModule)).isDirectory()) {
@@ -65,11 +65,11 @@ export function makeExtConfig({
 
   return {
     entryPoints,
-    outdir: side === "webpackModule" ? path.join(dst, "webpackModule") : dst,
+    outdir: side === "webpackModules" ? path.join(dst, "webpackModules") : dst,
 
     format: esm && side === "index" ? "esm" : "iife",
     globalName: "module.exports",
-    platform: ["index", "webpackModule"].includes(side) ? "browser" : "node",
+    platform: ["index", "webpackModules"].includes(side) ? "browser" : "node",
 
     treeShaking: true,
     bundle: true,
