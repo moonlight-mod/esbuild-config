@@ -52,7 +52,7 @@ export function makeExtConfig({
           if (fs.existsSync(filePath))
             entryPoints.push({
               in: filePath,
-              out: path.join("webpackModules", wpModule)
+              out: wpModule
             });
         }
       } else {
@@ -67,7 +67,7 @@ export function makeExtConfig({
     entryPoints,
     outdir: side === "webpackModule" ? path.join(dst, "webpackModule") : dst,
 
-    format: (esm && side === "index") ? "esm" : "iife",
+    format: esm && side === "index" ? "esm" : "iife",
     globalName: "module.exports",
     platform: ["index", "webpackModule"].includes(side) ? "browser" : "node",
 
