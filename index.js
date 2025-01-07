@@ -49,7 +49,11 @@ export function makeExtConfig({
             wpModule,
             `index.${fileExt}`
           );
-          if (fs.existsSync(filePath)) entryPoints.push(filePath);
+          if (fs.existsSync(filePath))
+            entryPoints.push({
+              in: filePath,
+              out: path.join("webpackModules", wpModule)
+            });
         }
       } else {
         entryPoints.push(path.join(wpModulesDir, wpModule));
