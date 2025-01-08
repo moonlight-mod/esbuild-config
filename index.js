@@ -28,6 +28,7 @@ export function makeExtConfig({
   side,
   extraExternal = [],
   extraPlugins = [],
+  extraConfig = {},
   esm = false
 }) {
   const entryPoints = [];
@@ -77,7 +78,6 @@ export function makeExtConfig({
     sourcemap: "inline",
 
     external: [...external, ...extraExternal],
-
     plugins: [
       copyFile(
         path.join(src, "manifest.json"),
@@ -88,7 +88,9 @@ export function makeExtConfig({
       deduplicatedLogging,
       taggedBuildLog(`${ext}/${side}`),
       ...extraPlugins
-    ]
+    ],
+
+    ...extraConfig
   };
 }
 
