@@ -115,9 +115,17 @@ export async function watchExt(cfg) {
 
   for (const buildCfg of buildCfgs) {
     const ctx = await esbuild.context(buildCfg);
-    await ctx.rebuild();
+    async function rebuild() {
+      try {
+        await ctx.rebuild();
+      } catch {
+        // esbuild will log errors, we just need to not do anything
+      }
+    }
+
+    await rebuild();
     const watcher = fs.watch(cfg.src, { recursive: true }, async () => {
-      await ctx.rebuild();
+      await rebuild();
     });
     watchers.push(watcher);
   }
