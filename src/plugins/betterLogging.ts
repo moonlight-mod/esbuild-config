@@ -9,7 +9,7 @@ const timeFormatter = new Intl.DateTimeFormat(undefined, {
   hour12: false
 });
 
-export const betterLogging: (tag: string) => Plugin = (tag)=> ({
+export const betterLogging: (tag: string) => Plugin = (tag) => ({
   name: "better-logging",
   setup(build) {
     build.onStart(() => lastMessages.clear());
