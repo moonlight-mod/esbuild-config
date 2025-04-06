@@ -1,0 +1,47 @@
+name: Release builds to GitHub Releases
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Release builds to GitHub Releases
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build esbuild-config
+        env:
+          NODE_ENV: production
+          MOONLIGHT_BRANCH: stable
+          MOONLIGHT_VERSION: ${{ github.ref_name }}
+        run: pnpm run build
+
+      - name: Publish esbuild-config
+        run: pnpm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create archive
+        run: |
+          cd ./dist
+          tar -czf ../dist.tar.gz *
+          cd ..
+
+      - name: Deploy to GitHub
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: ./dist.tar.gz
+          bodyFile: ./CHANGELOG.md
