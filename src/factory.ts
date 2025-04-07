@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { Plugin, BuildResult, BuildOptions } from 'esbuild';
-import { build, context } from 'esbuild';
+import type { Plugin, BuildResult, BuildOptions } from "esbuild";
+import { build, context } from "esbuild";
 
 import betterLogging from "./plugins/betterLogging.js";
 import webpackImports from "./plugins/webpackImports.ts";
@@ -22,44 +22,44 @@ const sides = ["index", "webpackModules", "node", "host"] as const;
 const fileExts = ["js", "jsx", "ts", "tsx"];
 
 export interface ESBuildFactoryOptions {
-    /**
-     * The name of your extension.
-     * @remarks This is used for logging purposes, and should match the ID in your `manifest.json` file.
-     */
-    name: string;
-    /**
-     * The input directory containing your extension's source (e.g. `./src`).
-     * @remarks If you use moonlight's `create-extension`, this is automatically generated.
-     */
-    entry: string;
-    /**
-     * The output directory containing your compiled extension (e.g. `./dist`).
-     * @remarks If you use moonlight's `create-extension`, this is automatically generated.
-     */
-    output: string;
-    /**
-     * A string determining what target to compile your extension to.
-     * @remarks In utility functions other than {@link defineConfig}, this is automatically generated.
-     */
-    side: typeof sides[number];
-    /**
-     * A list of extra "external" dependencies, (i.e., dependencies that the
-     * {@link side}'s runtime already provides and thus doesn't need to be bundled)
-     */
-    extraExternal?: string[];
-    /**
-     * A list of extra ESBuild {@link Plugin}s to be applied after the default ones.
-     */
-    extraPlugins?: Plugin[],
-    /**
-     * Extra {@link BuildOptions} to append to the finalized ESBuild config.
-     * Alternatively, you can destructure {@link defineConfig} and override default options.
-     */
-    extraConfig?: BuildOptions,
-    /**
-     * Whether or not to compile the extension's source code to ESM.
-     */
-    esm?: boolean;
+  /**
+   * The name of your extension.
+   * @remarks This is used for logging purposes, and should match the ID in your `manifest.json` file.
+   */
+  name: string;
+  /**
+   * The input directory containing your extension's source (e.g. `./src`).
+   * @remarks If you use moonlight's `create-extension`, this is automatically generated.
+   */
+  entry: string;
+  /**
+   * The output directory containing your compiled extension (e.g. `./dist`).
+   * @remarks If you use moonlight's `create-extension`, this is automatically generated.
+   */
+  output: string;
+  /**
+   * A string determining what target to compile your extension to.
+   * @remarks In utility functions other than {@link defineConfig}, this is automatically generated.
+   */
+  side: typeof sides[number];
+  /**
+   * A list of extra "external" dependencies, (i.e., dependencies that the
+   * {@link side}'s runtime already provides and thus doesn't need to be bundled)
+   */
+  extraExternal?: string[];
+  /**
+   * A list of extra ESBuild {@link Plugin}s to be applied after the default ones.
+   */
+  extraPlugins?: Plugin[],
+  /**
+   * Extra {@link BuildOptions} to append to the finalized ESBuild config.
+   * Alternatively, you can destructure {@link defineConfig} and override default options.
+   */
+  extraConfig?: BuildOptions,
+  /**
+   * Whether or not to compile the extension's source code to ESM.
+   */
+  esm?: boolean;
 }
 
 export function defineConfig({
@@ -106,7 +106,7 @@ export function defineConfig({
   if (entryPoints.length === 0) return null;
 
   return {
-    entryPoints: entryPoints as BuildOptions['entryPoints'],
+    entryPoints: entryPoints as BuildOptions["entryPoints"],
     outdir: side === "webpackModules" ? path.join(output, "webpackModules") : output,
 
     format: esm && side === "index" ? "esm" : "iife",
@@ -131,13 +131,13 @@ export function defineConfig({
   };
 }
 
-export function defineConfigs(options: Omit<ESBuildFactoryOptions, 'side'>): BuildOptions[] {
+export function defineConfigs(options: Omit<ESBuildFactoryOptions, "side">): BuildOptions[] {
   return sides
     .map((side) => defineConfig({ ...options, side }))
     .filter((config) => config != null);
 }
 
-export async function buildExtension(options: Omit<ESBuildFactoryOptions, 'side'>): Promise<BuildResult[]> {
+export async function buildExtension(options: Omit<ESBuildFactoryOptions, "side">): Promise<BuildResult[]> {
   const configs = defineConfigs(options);
   const builds: BuildResult[] = [];
   configs.forEach(async config => builds.push(await build(config)))
@@ -145,7 +145,7 @@ export async function buildExtension(options: Omit<ESBuildFactoryOptions, 'side'
   return builds;
 }
 
-export async function watchExt(options: Omit<ESBuildFactoryOptions, 'side'>) {
+export async function watchExt(options: Omit<ESBuildFactoryOptions, "side">) {
   const buildConfigs = defineConfigs(options);
   const watchers = [];
 

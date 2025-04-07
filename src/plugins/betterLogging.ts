@@ -1,5 +1,5 @@
 import type { Plugin } from "esbuild";
-import { formatMessages } from 'esbuild';
+import { formatMessages } from "esbuild";
 
 const lastMessages = new Set();
 const timeFormatter = new Intl.DateTimeFormat(undefined, {

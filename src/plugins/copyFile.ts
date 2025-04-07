@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { Plugin } from 'esbuild';
+import type { Plugin } from "esbuild";
 
 export const copyFile: (src: string, dest: string) => Plugin = (src, dest) => ({
   name: "copy-files",
