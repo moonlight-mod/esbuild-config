@@ -80,16 +80,17 @@ export interface ESBuildFactoryOptions {
   esm?: boolean;
 }
 
-export function defineConfig({
-  name,
-  entry,
-  output,
-  side,
-  extraExternal = [],
-  extraPlugins = [],
-  extraConfig = {},
-  esm = false
-}: ESBuildFactoryOptions): BuildOptions | null {
+export function defineConfig(options: ESBuildFactoryOptions): BuildOptions | null {
+  const name = options.name ?? options.ext;
+  const entry = options.entry ?? options.src;
+  const output = options.output ?? options.dst;
+  const {
+    side,
+    extraExternal = [],
+    extraPlugins = [],
+    extraConfig = {},
+    esm = false
+  } = options;
   const entryPoints: Array<{ in: string; out: string } | string> = [];
   if (side !== "webpackModules") {
     for (const fileExt of fileExts) {
@@ -141,7 +142,7 @@ export function defineConfig({
       copyFile(path.join(entry, "manifest.json"), path.join(output, "manifest.json")),
       copyFile(path.join(entry, "style.css"), path.join(output, "style.css")),
       webpackImports,
-      betterLogging(`${name}/${side}`),
+      betterLogging(`${name ?? options.ext}/${side}`),
       ...extraPlugins
     ],
 
