@@ -28,15 +28,33 @@ export interface ESBuildFactoryOptions {
    */
   name: string;
   /**
+   * The name of your extension.
+   * @remarks This is used for logging purposes, and should match the ID in your `manifest.json` file.
+   * @deprecated Use {@link name} instead. This will be removed in a major version.
+   */
+  ext: string;
+  /**
    * The input directory containing your extension's source (e.g. `./src`).
    * @remarks If you use moonlight's `create-extension`, this is automatically generated.
    */
   entry: string;
   /**
+   * The input directory containing your extension's source (e.g. `./src`).
+   * @remarks If you use moonlight's `create-extension`, this is automatically generated.
+   * @deprecated Use {@link entry} instead. This will be removed in a major version.
+   */
+  src: string;
+  /**
    * The output directory containing your compiled extension (e.g. `./dist`).
    * @remarks If you use moonlight's `create-extension`, this is automatically generated.
    */
   output: string;
+  /**
+   * The output directory containing your compiled extension (e.g. `./dist`).
+   * @remarks If you use moonlight's `create-extension`, this is automatically generated.
+   * @deprecated Use {@link output} instead. This will be removed in a major version.
+   */
+  dst: string;
   /**
    * A string determining what target to compile your extension to.
    * @remarks In utility functions other than {@link defineConfig}, this is automatically generated.
@@ -145,7 +163,7 @@ export async function buildExtension(options: Omit<ESBuildFactoryOptions, "side"
   return builds;
 }
 
-export async function watchExt(options: Omit<ESBuildFactoryOptions, "side">) {
+export async function watchExtension(options: Omit<ESBuildFactoryOptions, "side">) {
   const buildConfigs = defineConfigs(options);
   const watchers = [];
 
@@ -166,3 +184,13 @@ export async function watchExt(options: Omit<ESBuildFactoryOptions, "side">) {
 
   return watchers;
 }
+
+// Backwards Compatibility
+export {
+  defineConfig as makeExtConfig,
+  defineConfigs as makeExtConfigs,
+  buildExtension as buildExt,
+  watchExtension as watchExt,
+  betterLogging as deduplicatedLogging,
+  webpackImports as wpImport,
+};
