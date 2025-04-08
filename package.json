@@ -23,16 +23,17 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "tsc --build",
+    "clean": "pnpm build --clean",
+    "prepare": "pnpm build",
     "updates": "pnpm taze -r"
   },
+  "files": ["dist"],
   "devDependencies": {
     "@types/node": "^22.14.0",
     "prettier": "^3.4.2",
     "esbuild": "^0.25.2",
-    "typescript": "^5.8.3",
-    "tsup": "^8.4.0"
+    "typescript": "^5.8.3"
   },
   "peerDependencies": {
     "esbuild": ">= 0.19"

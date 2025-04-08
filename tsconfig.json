@@ -11,8 +11,6 @@
         "moduleResolution": "Bundler",
         "resolveJsonModule": true,
         "allowArbitraryExtensions": false,
-        "noEmit": true,
-        "allowImportingTsExtensions": true,
         "allowJs": true,
         "strict": true,
         "strictNullChecks": true,
@@ -20,13 +18,12 @@
         "noImplicitReturns": true,
         "noErrorTruncation": true,
         "declaration": true,
-        "declarationMap": true,
         "outDir": "dist",
-        "sourceMap": true,
         "stripInternal": true,
         "esModuleInterop": true,
         "verbatimModuleSyntax": true
     },
+    "include": ["src"],
     "exclude": [
         "**/node_modules/**",
         "**/dist/**",

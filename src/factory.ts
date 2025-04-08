@@ -4,8 +4,8 @@ import type { Plugin, BuildResult, BuildOptions } from "esbuild";
 import { build, context } from "esbuild";
 
 import betterLogging from "./plugins/betterLogging.js";
-import webpackImports from "./plugins/webpackImports.ts";
-import copyFile from "./plugins/copyFile.ts";
+import webpackImports from "./plugins/webpackImports.js";
+import copyFile from "./plugins/copyFile.js";
 
 const prod = process.env.NODE_ENV === "production";
 

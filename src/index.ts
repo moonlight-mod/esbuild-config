@@ -1,2 +1,2 @@
-export * from "./factory.ts";
-export * from "./plugins/index.ts";
+export * from "./factory.js";
+export * from "./plugins/index.js";
