@@ -142,7 +142,7 @@ export function defineConfig(options: ESBuildFactoryOptions): BuildOptions | nul
       copyFile(path.join(entry, "manifest.json"), path.join(output, "manifest.json")),
       copyFile(path.join(entry, "style.css"), path.join(output, "style.css")),
       webpackImports,
-      betterLogging(`${name ?? options.ext}/${side}`),
+      betterLogging(`${name}/${side}`),
       ...extraPlugins
     ],
 
