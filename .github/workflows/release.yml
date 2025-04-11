@@ -1,4 +1,4 @@
-name: Release builds to GitHub Releases
+name: Release
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   release:
-    name: Release builds to GitHub Releases
+    name: Release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,23 +25,9 @@ jobs:
       - name: Build esbuild-config
         env:
           NODE_ENV: production
-          MOONLIGHT_BRANCH: stable
-          MOONLIGHT_VERSION: ${{ github.ref_name }}
         run: pnpm run build
 
       - name: Publish esbuild-config
         run: pnpm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Create archive
-        run: |
-          cd ./dist
-          tar -czf ../dist.tar.gz *
-          cd ..
-
-      - name: Deploy to GitHub
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: ./dist.tar.gz
-          bodyFile: ./CHANGELOG.md

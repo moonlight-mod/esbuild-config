@@ -26,12 +26,6 @@ export interface ESBuildFactoryOptions {
    * The name of your extension.
    * @remarks This is used for logging purposes, and should match the ID in your `manifest.json` file.
    */
-  name: string;
-  /**
-   * The name of your extension.
-   * @remarks This is used for logging purposes, and should match the ID in your `manifest.json` file.
-   * @deprecated Use {@link name} instead. This will be removed in a major version.
-   */
   ext: string;
   /**
    * The input directory containing your extension's source (e.g. `./src`).
@@ -75,16 +69,17 @@ export interface ESBuildFactoryOptions {
    */
   extraConfig?: BuildOptions,
   /**
-   * Whether or not to compile the extension's source code to ESM.
+   * Whether or not to compile the extension's main entrypoint (e.g.`index.ts`) to ESM.
+   * @remarks Note that this doesn't compile webpackModules to ESM.
    */
   esm?: boolean;
 }
 
 export function defineConfig(options: ESBuildFactoryOptions): BuildOptions | null {
-  const name = options.name ?? options.ext;
   const entry = options.entry ?? options.src;
   const output = options.output ?? options.dst;
   const {
+    ext,
     side,
     extraExternal = [],
     extraPlugins = [],
@@ -142,7 +137,7 @@ export function defineConfig(options: ESBuildFactoryOptions): BuildOptions | nul
       copyFile(path.join(entry, "manifest.json"), path.join(output, "manifest.json")),
       copyFile(path.join(entry, "style.css"), path.join(output, "style.css")),
       webpackImports,
-      betterLogging(`${name}/${side}`),
+      betterLogging(`${ext}/${side}`),
       ...extraPlugins
     ],
 
@@ -186,7 +181,8 @@ export async function watchExtension(options: Omit<ESBuildFactoryOptions, "side"
   return watchers;
 }
 
-// Backwards Compatibility
+// In GitHub PR #3, these original names were modified to be more descriptive.
+// We re-export these as to not break backwards compatibility with older plugins.
 export {
   defineConfig as makeExtConfig,
   defineConfigs as makeExtConfigs,

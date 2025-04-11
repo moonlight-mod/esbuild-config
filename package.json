@@ -25,8 +25,7 @@
   "scripts": {
     "build": "tsc --build",
     "clean": "pnpm build --clean",
-    "prepare": "pnpm build",
-    "updates": "pnpm taze -r"
+    "prepare": "pnpm build"
   },
   "files": ["dist"],
   "devDependencies": {
