@@ -1,3 +1,3 @@
 # `@moonlight-mod/esbuild-config`
 
-A simple and effective `esbuild` configuration for moonlight extensions and builds.
+This project has been moved into [the moonlight monorepo](https://github.com/moonlight-mod/moonlight/tree/main/packages/esbuild-config).
